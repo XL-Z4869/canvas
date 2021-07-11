@@ -10,25 +10,36 @@
 </head>
 
 <body>
-    <div id="canvas"></div>
+    <canvas id="canvas"></canvas>
     <script>
-        canvas.onclick = (e) => {
-            // console.log(e);
-            console.log(e.clientX);
-            console.log(e.clientY);
-            let div = document.createElement('div')
-            div.style.position = 'absolute';
-            div.style.left = e.clientX + 'px'
-            div.style.top = e.clientY + 'px'
-                // div.style.border = '1px solid red'
-            div.style.width = "6px"
-            div.style.height = '6px'
-            div.style.marginLeft = "-3px"
-            div.style.marginTop = "-3px"
-            div.style.borderRadius = '50%'
-            div.style.backgroundColor = 'black'
-            canvas.appendChild(div)
+        const canvas = document.getElementById('canvas');
 
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        let painting = false
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = 'black';
+
+        canvas.onmousedown = () => {
+            painting = true
+        }
+        canvas.onmousemove = (e) => {
+            const x = e.clientX
+            const y = e.clientY
+                // console.log(x, y);
+            if (painting === true) {
+                ctx.beginPath()
+                ctx.arc(x, y, 4, 0, 2 * Math.PI)
+                ctx.stroke()
+                ctx.fill()
+            } else {
+                console.log("不做");
+            }
+        }
+
+        canvas.onmouseup = () => {
+            painting = false
         }
     </script>
 </body>
